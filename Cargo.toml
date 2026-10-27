@@ -1,0 +1,27 @@
+[package]
+name = "http-server"
+version = "0.1.0"
+edition = "2024"
+authors = ["Rijz"]
+license = "MIT"
+description = "A small, fast HTTP server written from scratch in Rust using only std."
+readme = "README.md"
+
+[lib]
+name = "http_server"
+path = "src/lib.rs"
+
+[[bin]]
+name = "http-server"
+path = "src/main.rs"
+
+[[bench]]
+name = "benchmark"
+harness = false
+
+[dependencies]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
