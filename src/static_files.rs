@@ -65,7 +65,7 @@ impl StaticFileServer {
             && let Some((start, end)) = parse_range(range_header, file_len)
         {
             let slice = &data[start..=end];
-            let mut res = Response::bytes(StatusCode::Ok, mime, slice.to_vec());
+            let mut res = Response::bytes(StatusCode::PartialContent, mime, slice.to_vec());
             res.header("content-range", &format!("bytes {start}-{end}/{file_len}"));
             res.header("etag", &etag);
             res.header("accept-ranges", "bytes");

@@ -54,3 +54,15 @@ fn test_response_wire_format() {
     assert!(text.contains("content-length: 18\r\n"));
     assert!(text.ends_with("\r\n\r\n{\"status\":\"ready\"}"));
 }
+
+#[test]
+fn test_partial_content_response() {
+    let mut res = Response::bytes(StatusCode::PartialContent, "text/plain", b"part".to_vec());
+    res.header("content-range", "bytes 0-3/10");
+    let bytes = res.to_bytes();
+    let text = String::from_utf8_lossy(&bytes);
+
+    assert!(text.starts_with("HTTP/1.1 206 Partial Content\r\n"));
+    assert!(text.contains("content-range: bytes 0-3/10\r\n"));
+    assert!(text.ends_with("\r\n\r\npart"));
+}
